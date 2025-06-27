@@ -1,0 +1,126 @@
+# Language Detection with Lingua (Rust) and Go - Cursor Rules
+
+## Project Overview
+This is a Go application that uses Rust's Lingua library for language detection via CGO (C Go). The project demonstrates FFI (Foreign Function Interface) between Go and Rust.
+
+## Architecture
+- **Rust FFI Layer**: `src/lib.rs` - Wraps Lingua functionality in C-compatible functions
+- **Go Interface**: `lingua.go` - Uses CGO to call Rust functions
+- **Build System**: Cargo for Rust, Go modules for Go, Makefile for orchestration
+- **Header Generation**: cbindgen generates C headers from Rust code
+
+## Key Patterns
+
+### Rust FFI Functions
+- Use `#[no_mangle] extern "C"` for exported functions
+- Return `*mut c_char` for strings (C-compatible)
+- Always provide a `free_string` function for memory management
+- Handle UTF-8 conversion between Rust and C strings
+
+### Go CGO Interface
+- Use `import "C"` to access C functions
+- Always call `C.free_string()` after using returned strings
+- Use `defer` statements for cleanup
+- Convert between Go strings and C strings using `C.CString()` and `C.GoString()`
+
+### Testing
+- Include tests for multiple languages (European, Asian, SEA)
+- Test mixed-language input
+- Test confidence scores
+- Use descriptive test names
+
+## Development Guidelines
+
+### Adding New Languages
+1. Add `Language::Xxx` to the `languages` vector in `src/lib.rs`
+2. Rebuild Rust library: `cargo build --release`
+3. Regenerate header: `cbindgen --config cbindgen.toml --crate lingua-ffi --output target/release/lingua_ffi.h`
+4. Add corresponding tests in `lingua_test.go`
+
+### Adding New FFI Functions
+1. Add function to `src/lib.rs` with proper C-compatible signature
+2. Regenerate header with cbindgen
+3. Add Go wrapper method in `lingua.go`
+4. Add tests for the new functionality
+
+### Error Handling
+- Return meaningful error strings from Rust functions
+- Handle null pointers and invalid UTF-8 in Rust
+- Use proper memory management in Go with defer statements
+
+## Documentation and Artifacts Maintenance
+
+### When Making Code Changes
+**ALWAYS update the following artifacts when making significant changes:**
+
+1. **README.md** - Update if:
+   - Adding new languages or features
+   - Changing build process
+   - Modifying API interface
+   - Adding new dependencies
+
+2. **DEVELOPMENT.md** - Update if:
+   - Adding new development workflows
+   - Changing error handling patterns
+   - Adding new testing strategies
+   - Modifying performance optimizations
+
+3. **ARCHITECTURE.md** - Update if:
+   - Changing system architecture
+   - Adding new components
+   - Modifying data flow
+   - Changing performance characteristics
+
+4. **TODO.md** - Update if:
+   - Completing tasks (mark as done)
+   - Adding new requirements
+   - Discovering new limitations
+   - Adding new enhancement ideas
+
+5. **lingua_test.go** - Update if:
+   - Adding new languages
+   - Adding new functions
+   - Adding new test scenarios
+   - Fixing test failures
+
+### Documentation Update Guidelines
+- **Keep examples current**: Ensure all code examples match the actual implementation
+- **Update build instructions**: If build process changes, update all relevant docs
+- **Maintain accuracy**: Verify that documentation reflects the current state of the code
+- **Add context**: When adding new features, explain why and how they work
+- **Cross-reference**: Link related documentation sections when appropriate
+
+### Artifact Synchronization
+- **Consistency**: Ensure all artifacts are consistent with each other
+- **Version tracking**: Update version numbers or timestamps when making changes
+- **Change logging**: Consider adding a CHANGELOG.md for significant changes
+- **Review process**: Review all artifacts after major changes
+
+## File Purposes
+- `src/lib.rs`: Rust FFI implementation
+- `lingua.go`: Go interface and main application
+- `lingua_test.go`: Comprehensive test suite
+- `Cargo.toml`: Rust dependencies and build configuration
+- `go.mod`: Go module definition
+- `Makefile`: Build automation
+- `build.rs`: Rust build script for cbindgen
+- `cbindgen.toml`: cbindgen configuration
+- `target/release/`: Compiled artifacts (library and header)
+
+## Common Issues
+- Header file not found: Ensure `lingua_ffi.h` is in `target/release/`
+- Linker errors: Check library file exists in `target/release/`
+- Memory leaks: Always call `free_string` for returned strings
+- Test failures: Some short phrases may be ambiguous
+
+## Build Commands
+```bash
+# Full build
+cargo build --release
+cbindgen --config cbindgen.toml --crate lingua-ffi --output target/release/lingua_ffi.h
+go build -o lingua-detector lingua.go
+
+# Or use Makefile
+make build
+make test
+``` 

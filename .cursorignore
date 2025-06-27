@@ -1,0 +1,41 @@
+# Build artifacts
+target/
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+lingua-detector
+
+# Generated files
+*.h
+*.c
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Go build cache
+go.sum
+
+# Rust build cache
+Cargo.lock 

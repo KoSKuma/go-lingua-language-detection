@@ -1,0 +1,6 @@
+language = "C"
+include_guard = "LINGUA_FFI_H"
+autogen_warning = "// Auto-generated file, do not edit manually"
+tab_width = 4
+documentation = true
+cpp_compat = false 

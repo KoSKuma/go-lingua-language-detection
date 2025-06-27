@@ -1,0 +1,72 @@
+# Rust
+/target/
+**/*.rs.bk
+*.pdb
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Build artifacts
+lingua-detector
+*.h
+*.a
+*.o
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Coverage reports
+coverage/
+*.cover
+coverage.out
+
+# Profiling data
+*.prof
+*.pprof
+
+# Backup files
+*.backup
+*.old
+
+# Generated documentation
+docs/_build/
+
+# Package manager lock files (uncomment if you want to ignore them)
+# Cargo.lock
+# go.sum 
