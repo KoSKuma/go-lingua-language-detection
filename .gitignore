@@ -1,5 +1,5 @@
 # Rust
-/target/
+rust/target/
 **/*.rs.bk
 *.pdb
 
@@ -14,7 +14,7 @@
 go.work
 
 # Build artifacts
-lingua-detector
+/lingua-detector
 *.h
 *.a
 *.o
@@ -69,4 +69,7 @@ docs/_build/
 
 # Package manager lock files (uncomment if you want to ignore them)
 # Cargo.lock
-# go.sum 
+# go.sum
+
+# Old target directory (legacy)
+target/

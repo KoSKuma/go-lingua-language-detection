@@ -1,33 +1,37 @@
-.PHONY: build clean test
+.PHONY: build clean test run
 
 # Build the Rust library and then the Go application
 build: build-rust build-go
 
 # Build the Rust library
 build-rust:
-	cargo build --release
-	cp target/release/liblingua_ffi.* target/release/
+	cd rust && cargo build --release
+	cp rust/target/release/liblingua_ffi.* rust/target/release/
 
 # Build the Go application
 build-go: build-rust
-	go build -o lingua-detector lingua.go
+	go build -o lingua-detector cmd/lingua-detector/main.go
 
 # Clean build artifacts
 clean:
-	cargo clean
+	cd rust && cargo clean
 	rm -f lingua-detector
-	rm -f target/release/liblingua_ffi.*
+	rm -f rust/target/release/liblingua_ffi.*
 
 # Run tests
-test: build
-	./lingua-detector
+test:
+	go test -v ./pkg/lingua
 
 # Install dependencies
 deps:
 	go mod tidy
-	cargo build
+	cd rust && cargo build
 
 # Development build (debug mode)
 dev: build-rust
-	cargo build
-	go build -o lingua-detector lingua.go 
+	cd rust && cargo build
+	go build -o lingua-detector cmd/lingua-detector/main.go 
+
+# Run the built artifact
+run:
+	./lingua-detector
